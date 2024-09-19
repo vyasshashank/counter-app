@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css'; // Make sure this file is styled similarly to your example
+import './App.css';
 
 function App() {
   const [records, setRecords] = useState([
@@ -15,8 +15,8 @@ function App() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [textboxValue, setTextboxValue] = useState('');
   const [children, setChildren] = useState([]);
-  const [num1, setNum1] = useState(0);
-  const [num2, setNum2] = useState(0);
+  const [num1, setNum1] = useState('');
+  const [num2, setNum2] = useState('');
   const [counter, setCounter] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -25,6 +25,26 @@ function App() {
   const filteredRecords = records.filter(record =>
     record.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleNum1Change = (e) => {
+    const value = e.target.value;
+    if (/^-?\d*\.?\d*$/.test(value)) { // Regular expression to match valid number format, including negative
+      setNum1(value);
+    }
+  };
+
+  const handleNum2Change = (e) => {
+    const value = e.target.value;
+    if (/^-?\d*\.?\d*$/.test(value)) { // Regular expression to match valid number format, including negative
+      setNum2(value);
+    }
+  };
+
+  const calculateSum = () => {
+    const n1 = parseFloat(num1) || 0;
+    const n2 = parseFloat(num2) || 0;
+    return n1 + n2;
+  };
 
   return (
     <div className="App">
@@ -64,7 +84,7 @@ function App() {
               checked={isButtonDisabled}
               onChange={() => setIsButtonDisabled(!isButtonDisabled)}
             />
-            Enable Button
+            Disable Button
           </label>
           <button disabled={isButtonDisabled}>Click Me!</button>
         </section>
@@ -93,24 +113,20 @@ function App() {
         </section>
 
         <section>
-          <h3>Sum of Two Numbers (with validation)</h3>
+          <h3>Sum of Two Numbers (with validation for negative numbers)</h3>
           <input
-            type="number"
+            type="text"
             value={num1}
-            onChange={e => setNum1(Number(e.target.value))}
+            onChange={handleNum1Change}
             placeholder="Number 1"
           />
           <input
-            type="number"
+            type="text"
             value={num2}
-            onChange={e => setNum2(Number(e.target.value))}
+            onChange={handleNum2Change}
             placeholder="Number 2"
           />
-          {(!isNaN(num1) && !isNaN(num2)) ? (
-            <p>Sum: {num1 + num2}</p>
-          ) : (
-            <p>Please enter valid numbers.</p>
-          )}
+          <p>Sum: {calculateSum()}</p>
         </section>
       </div>
 
