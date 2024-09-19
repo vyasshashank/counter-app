@@ -93,7 +93,7 @@ function App() {
         </section>
 
         <section>
-          <h3>Sum of Two Numbers</h3>
+          <h3>Sum of Two Numbers (with validation)</h3>
           <input
             type="number"
             value={num1}
@@ -106,7 +106,11 @@ function App() {
             onChange={e => setNum2(Number(e.target.value))}
             placeholder="Number 2"
           />
-          <p>Sum: {num1 + num2}</p>
+          {(!isNaN(num1) && !isNaN(num2)) ? (
+            <p>Sum: {num1 + num2}</p>
+          ) : (
+            <p>Please enter valid numbers.</p>
+          )}
         </section>
       </div>
 
